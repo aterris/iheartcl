@@ -1,0 +1,266 @@
+<!doctype html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+
+		<title>I &lt;3 Tools</title>
+
+		<meta name="description" content="Clojure">
+		<meta name="author" content="Andrew Terris">
+
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<link href='http://fonts.googleapis.com/css?family=Lato:400,700' rel='stylesheet' type='text/css'>
+		<link href='http://fonts.googleapis.com/css?family=Lustria' rel='stylesheet' type='text/css'>
+
+		<link rel="stylesheet" href="css/reveal.min.css">
+		<link rel="stylesheet" href="css/tools.css" id="theme">
+
+		<link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+
+		<style> .reveal i.fa { font-family:FontAwesome; font-style: normal; } </style>
+
+		<!-- For syntax highlighting -->
+		<link rel="stylesheet" href="lib/css/zenburn.css">
+
+		<!-- If the query includes 'print-pdf', include the PDF print sheet -->
+		<script>
+			if( window.location.search.match( /print-pdf/gi ) ) {
+				var link = document.createElement( 'link' );
+				link.rel = 'stylesheet';
+				link.type = 'text/css';
+				link.href = 'css/print/pdf.css';
+				document.getElementsByTagName( 'head' )[0].appendChild( link );
+			}
+		</script>
+
+		<!--[if lt IE 9]>
+		<script src="lib/js/html5shiv.js"></script>
+		<![endif]-->
+	</head>
+
+	<body>
+
+		<div class="reveal">
+
+			<!-- Any section element inside of this container is displayed as a slide -->
+			<div class="slides">
+				<section data-background="#49708A" style="text-align: left;" class="center">
+					<h1>I <i class="fa fa-heart"></i></h1>
+					<h1>Tools</h1>
+				</section>
+
+				<section data-background="#49708A" style="text-align: left;" class="center">
+					<h1>I <i class="fa fa-heart"></i></h1>
+					<h1>Command Line</h1>
+				</section>
+
+				<section data-background="#49708A" style="text-align: left;" class="center">
+					<h1>I <i class="fa fa-heart"></i></h1>
+					<h1>Ruby</h1>
+				</section>
+
+				<section data-background="#49708A" style="text-align: left;" class="center">
+					<h1>Be Useful</h1>
+					<h3>Thinking about tools</h3>
+				</section>
+
+        <section data-background="#49708A" style="text-align: left;">
+          <h2>Interface</h2>
+          <pre><code>
+$ cf_deploy deploy uat inv -f config/cfd.yml -l debug --inputs=ImageId:ami-123
+          </code></pre>
+        </section>
+
+        <section data-background="#49708A" style="text-align: left;">
+          <h2>Documentation</h2>
+          <pre><code data-trim>
+$ rbenv
+
+rbenv 0.4.0
+Usage: rbenv &lt;command&gt; [&lt;args&gt;]
+
+Some useful rbenv commands are:
+   commands    List all available rbenv commands
+   local       Set or show the local application-specific Ruby version
+   global      Set or show the global Ruby version
+   shell       Set or show the shell-specific Ruby version
+   install     Install a Ruby version using ruby-build
+   uninstall   Uninstall a specific Ruby version
+   rehash      Rehash rbenv shims (run this after installing executables)
+   version     Show the current Ruby version and its origin
+   versions    List all Ruby versions available to rbenv
+   which       Display the full path to an executable
+   whence      List all Ruby versions that contain the given executable
+
+See `rbenv help &lt;command&gt;` for information on a specific command.
+For full documentation, see: https://github.com/sstephenson/rbenv#readme
+          </pre></code>
+        </section>
+
+        <section data-background="#49708A" style="text-align: left;">
+          <h2>Exit Codes and Output</h2>
+        </section>
+
+        <section data-background="#49708A" style="text-align: left;">
+          <h2>Color and Formatting</h2>
+        </section>
+
+        <section data-background="#49708A" style="text-align: left;">
+          <h2>Interactivity</h2>
+        </section>
+
+				<section data-background="#49708A" style="text-align: left;" class="center">
+					<h1>Building Tools</h1>
+					<h3>OptParse, Thor</h3>
+				</section>
+
+        <section data-background="#49708A" style="text-align: left;">
+          <h2>OptParse</h2>
+          <pre><code data-trim class="ruby">
+#!/usr/bin/env ruby
+require File.expand_path('../lib/importer', __FILE__)
+require 'optparse' 
+
+parser = OptionParser.new do |opts|
+  opts.banner = 'Import TSV Data into Database'
+
+  opts.on( '-d', '--database DATABASE', [:dynamo_db, :riak]) do |db|
+    @database = db
+  end
+
+  opts.on("-n NAME","--name","Table or Bucket Name \t(required)") do |name|
+    @name = name 
+  end
+end
+parser.parse!
+
+def main(args)
+  case @database
+  when :dynamo_db
+    Importer::DynamoDB.import!(args.first, @name)
+  when :riak
+    Importer::Riak.import!(args.first, @name)
+  end
+end
+
+main(ARGV)
+exit 0      
+          </code></pre>
+        </section>
+
+				<section data-background="#49708A" style="text-align: left;">
+					<h2>Thor</h2>
+					<pre><code data-trim class="ruby">
+#!/usr/bin/env ruby
+require File.expand_path('../lib/two_man', __FILE__)
+require 'thor'
+
+module TwoMan
+  class CLI &lt; Thor
+    package_name "Two-Man Rule Launcher"
+
+    desc "codes", "Display available launch codes"
+    def codes
+      Command.display_launch_codes
+    end
+
+    desc "enable LAUNCH_CODE", "Enable launcher with LAUNCH_CODE"
+    method_option :web, :type => :boolean, :default => true, :aliases => "-w"
+    def enable(launch_code)
+      Launcher.new(launch_code, options[:web])
+    end
+  end
+end
+
+TwoMan::CLI.start						
+					</code></pre>
+				</section>
+				
+
+				<section data-background="#49708A" style="text-align: left;" class="center">
+					<h1>Testing</h1>
+					<h3>Unit Tests, Aruba and Cucumber</h3>
+				</section>
+
+				<section data-background="#49708A" style="text-align: left;" class="center">
+					<h1>Distributing</h1>
+					<h3>Manually or RubyGems</h3>
+				</section>
+
+        <section data-background="#49708A" style="text-align: left;">
+          <h2>Manually</h2>
+          <pre><code data-trim>
+# Fetch the Tool from Github
+git clone https://github.com/aterris/two_man.git ~/.two_man
+
+# Add executable to your path
+echo 'export PATH="$PATH:$HOME/.two_man/bin"' >> ~/.zshrc    
+          </code></pre>
+        </section>
+
+        <section data-background="#49708A" style="text-align: left;">
+          <h2>RubyGems</h2>
+          <pre><code data-trim class="ruby">
+Gem::Specification.new do |s|
+  s.name        = 'example'
+  s.version     = '0.1.0'
+  s.licenses    = ['MIT']
+  s.summary     = "This is an example!"
+  s.description = "Much longer explanation of the example!"
+  s.authors     = ["Ruby Coder"]
+  s.email       = 'rubycoder@example.com'
+  s.files       = ["lib/example.rb"]
+  s.homepage    = 'https://rubygems.org/gems/example'
+end    
+          </code></pre>
+        </section>
+
+				<section data-background="#49708A" style="text-align: left;" class="center">
+					<h1>Screw Ruby</h1>
+					<h3>Sub - a 37Signals Tool</h3>
+				</section>
+
+			</div>
+
+		</div>
+
+		<script src="lib/js/head.min.js"></script>
+		<script src="js/reveal.min.js"></script>
+
+		<script>
+
+			// Full list of configuration options available here:
+			// https://github.com/hakimel/reveal.js#configuration
+			Reveal.initialize({
+				controls: false,
+				progress: true,
+				history: true,
+				center: false,
+
+				theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+				transition: Reveal.getQueryHash().transition || 'none', // default/cube/page/concave/zoom/linear/fade/none
+
+				// Parallax scrolling
+				// parallaxBackgroundImage: 'https://s3.amazonaws.com/hakim-static/reveal-js/reveal-parallax-1.jpg',
+				// parallaxBackgroundSize: '2100px 900px',
+
+				// Optional libraries used to extend on reveal.js
+				dependencies: [
+					{ src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+					{ src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+					{ src: 'plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+					{ src: 'plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
+				]
+			});
+
+		</script>
+
+	</body>
+</html>
