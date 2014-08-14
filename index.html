@@ -49,77 +49,76 @@
 
 			<!-- Any section element inside of this container is displayed as a slide -->
 			<div class="slides">
-				<section data-background="#49708A" style="text-align: left;" class="center">
+				<section data-background="#49708A" data-background-transition="none" style="text-align: left;" class="center">
 					<h1>I <i class="fa fa-heart"></i></h1>
 					<h1>Tools</h1>
 				</section>
 
-				<section data-background="#49708A" style="text-align: left;" class="center">
+				<section data-background="#49708A"  data-background-transition="none" style="text-align: left;" class="center">
 					<h1>I <i class="fa fa-heart"></i></h1>
 					<h1>Command Line</h1>
 				</section>
 
-				<section data-background="#49708A" style="text-align: left;" class="center">
+				<section data-background="#49708A"  data-background-transition="none" style="text-align: left;" class="center">
 					<h1>I <i class="fa fa-heart"></i></h1>
 					<h1>Ruby</h1>
 				</section>
 
-				<section data-background="#49708A" style="text-align: left;" class="center">
+				<section data-background="#49708A"  data-background-transition="none" style="text-align: left;" class="center">
 					<h1>Be Useful</h1>
 					<h3>Thinking about tools</h3>
 				</section>
 
-        <section data-background="#49708A" style="text-align: left;">
-          <h2>Interface</h2>
-          <pre><code>
-$ cf_deploy deploy uat inv -f config/cfd.yml -l debug --inputs=ImageId:ami-123
-          </code></pre>
+        <section data-background="#49708A"  data-background-transition="none" style="text-align: left;">
+          <h2>Be Useful</h2>
+          <ul>
+            <li>Interface</li>
+            <li>Documentation</li>
+            <li>Exit Codes and Output</li>
+            <li>Color and Formatting</li>
+            <li>Interactivity</li>
+          </ul>
+
         </section>
 
-        <section data-background="#49708A" style="text-align: left;">
-          <h2>Documentation</h2>
-          <pre><code data-trim>
-$ rbenv
+        <section data-background="#49708A"  data-background-transition="none" style="text-align: left;">
+          
+          <pre><code class="bash">
+$ cf_deploy deploy uat inv -f config/cfd.yml -l debug --inputs=ImageId:ami-123
+          </code></pre>
+                    <pre><code>
+$ cf_deploy
 
-rbenv 0.4.0
-Usage: rbenv &lt;command&gt; [&lt;args&gt;]
+Commands:
+  cf_deploy config [ENV]                     # Show parsed config
+  cf_deploy deploy [ENV] [COMPONENT]         # Deploy the specified components
+  cf_deploy destroy [ENV] [COMPONENT]        # Destroy the specified environment
+  cf_deploy help [COMMAND]                   # Describe available commands
+  cf_deploy json [ENV] [COMPONENT]           # Show parsed CloudFormation JSON 
+  cf_deploy kill_inactive [ENV] [COMPONENT]  # Destroy the inactive stack for
+  cf_deploy status [ENV] [COMPONENT]         # Show the status of the specified CF
+  cf_deploy switch [ENV] [COMPONENT]         # Switch active and inactive stacks
 
-Some useful rbenv commands are:
-   commands    List all available rbenv commands
-   local       Set or show the local application-specific Ruby version
-   global      Set or show the global Ruby version
-   shell       Set or show the shell-specific Ruby version
-   install     Install a Ruby version using ruby-build
-   uninstall   Uninstall a specific Ruby version
-   rehash      Rehash rbenv shims (run this after installing executables)
-   version     Show the current Ruby version and its origin
-   versions    List all Ruby versions available to rbenv
-   which       Display the full path to an executable
-   whence      List all Ruby versions that contain the given executable
-
-See `rbenv help &lt;command&gt;` for information on a specific command.
-For full documentation, see: https://github.com/sstephenson/rbenv#readme
+Options:
+  -f, [--config-file=CONFIG-FILE]  # cf_deployer config file
+                                   # Default: config/cf_deployer.yml
+  -l, [--log-level=LOG-LEVEL]      # logging level
+                                   # Default: info
+                                   # Possible values: info, debug, aws-debug
+  -d, [--dry-run]                  # Say what we would do but don't actually make
+  -s, [--settings=key:value]       # key:value pair to overwrite setting in config
+  -i, [--inputs=key:value]         # key:value pair to overwrite in template input
+  -r, [--region=REGION]            # Amazon region
+                                   # Default: us-east-1
           </pre></code>
         </section>
 
-        <section data-background="#49708A" style="text-align: left;">
-          <h2>Exit Codes and Output</h2>
-        </section>
-
-        <section data-background="#49708A" style="text-align: left;">
-          <h2>Color and Formatting</h2>
-        </section>
-
-        <section data-background="#49708A" style="text-align: left;">
-          <h2>Interactivity</h2>
-        </section>
-
-				<section data-background="#49708A" style="text-align: left;" class="center">
-					<h1>Building Tools</h1>
+				<section data-background="#49708A"  data-background-transition="none" style="text-align: left;" class="center">
+					<h1>Build Tools</h1>
 					<h3>OptParse, Thor</h3>
 				</section>
 
-        <section data-background="#49708A" style="text-align: left;">
+        <section data-background="#49708A"  data-background-transition="none" style="text-align: left;">
           <h2>OptParse</h2>
           <pre><code data-trim class="ruby">
 #!/usr/bin/env ruby
@@ -153,7 +152,7 @@ exit 0
           </code></pre>
         </section>
 
-				<section data-background="#49708A" style="text-align: left;">
+				<section data-background="#49708A"  data-background-transition="none" style="text-align: left;">
 					<h2>Thor</h2>
 					<pre><code data-trim class="ruby">
 #!/usr/bin/env ruby
@@ -182,18 +181,18 @@ TwoMan::CLI.start
 				</section>
 				
 
-				<section data-background="#49708A" style="text-align: left;" class="center">
-					<h1>Testing</h1>
+				<section data-background="#49708A"  data-background-transition="none" style="text-align: left;" class="center">
+					<h1>Test</h1>
 					<h3>Unit Tests, Aruba and Cucumber</h3>
 				</section>
 
-				<section data-background="#49708A" style="text-align: left;" class="center">
-					<h1>Distributing</h1>
+				<section data-background="#49708A"  data-background-transition="none" style="text-align: left;" class="center">
+					<h1>Distribute</h1>
 					<h3>Manually or RubyGems</h3>
 				</section>
 
-				<section data-background="#49708A" style="text-align: left;" class="center">
-					<h1>Screw Ruby</h1>
+				<section data-background="#49708A"  data-background-transition="none" style="text-align: left;" class="center">
+					<h1>Screw Ruby?</h1>
 					<h3>Sub - a 37Signals Tool</h3>
 				</section>
 
